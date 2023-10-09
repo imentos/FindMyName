@@ -1,9 +1,9 @@
 /*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-The Vision view controller, which recognizes and displays bounding boxes around text.
-*/
+ See LICENSE folder for this sample’s licensing information.
+ 
+ Abstract:
+ The Vision view controller, which recognizes and displays bounding boxes around text.
+ */
 
 import Foundation
 import UIKit
@@ -22,6 +22,8 @@ class VisionViewController: ViewController {
 		request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
 
 		super.viewDidLoad()
+        
+        overrideUserInterfaceStyle = .light
 	}
 	
 	// MARK: - Text recognition
@@ -32,7 +34,7 @@ class VisionViewController: ViewController {
 		var redBoxes = [CGRect]() // Shows all recognized text lines.
 		var greenBoxes = [CGRect]() // Shows words that might be serials.
 		
-		guard let results = request.results as? [VNRecognizedTextObservation] else {
+        guard let results = request.results as? [VNRecognizedTextObservation], let username = UserDefaults.standard.string(forKey: "userName") else {
 			return
 		}
 		
@@ -48,7 +50,7 @@ class VisionViewController: ViewController {
 			// covers the full result, only draw the green box.
 			var numberIsSubstring = true
 			
-			if let result = candidate.string.extractPhoneNumber() {
+			if let result = candidate.string.extractName(name: username) {
 				let (range, number) = result
 				// The number might not cover full visionResult. Extract the bounding
 				// box of the substring.

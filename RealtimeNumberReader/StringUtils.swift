@@ -52,6 +52,13 @@ extension Character {
 }
 
 extension String {
+    func extractName(name: String) -> (Range<String.Index>, String)? {
+        guard let range = self.lowercased().range(of: name.lowercased()) else {
+            return nil
+        }
+        return (range, name)
+    }
+    
 	// Extracts the first US-style phone number found in the string, returning
 	// the range of the number and the number itself as a tuple.
 	// Returns nil if no number is found.
@@ -173,7 +180,7 @@ class StringTracker {
 	
 	func getStableString() -> String? {
 		// Require the recognizer to see the same string at least 10 times.
-		if bestCount >= 10 {
+		if bestCount >= 1 {
 			return bestString
 		} else {
 			return nil
