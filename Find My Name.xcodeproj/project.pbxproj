@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,7 +20,7 @@
 /* Begin PBXFileReference section */
 		22B211C99132F28B24DF4FE3 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		460A3F4F2280B7A900FDBE21 /* VisionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionViewController.swift; sourceTree = "<group>"; };
-		46D1B269226A6A9600C6D4A7 /* Find my name.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Find my name.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		46D1B269226A6A9600C6D4A7 /* Find My Name.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Find My Name.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		46D1B26C226A6A9600C6D4A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46D1B26E226A6A9600C6D4A7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		46D1B271226A6A9600C6D4A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -30,7 +30,6 @@
 		46D1B27E226A6AAB00C6D4A7 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		46E86923226A9FC300C025A2 /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		D4B262FCDCAFA149C877DBF8 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		E0C0E240E0E1569000000001 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,7 +46,6 @@
 		46D1B260226A6A9600C6D4A7 = {
 			isa = PBXGroup;
 			children = (
-				E0C0E240E0E1569000000001 /* README.md */,
 				46D1B26B226A6A9600C6D4A7 /* RealtimeNumberReader */,
 				46D1B26A226A6A9600C6D4A7 /* Products */,
 				FF610FDC61304D7540023623 /* Configuration */,
@@ -58,7 +56,7 @@
 		46D1B26A226A6A9600C6D4A7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				46D1B269226A6A9600C6D4A7 /* Find my name.app */,
+				46D1B269226A6A9600C6D4A7 /* Find My Name.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -98,9 +96,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		46D1B268226A6A9600C6D4A7 /* Find my name */ = {
+		46D1B268226A6A9600C6D4A7 /* Find My Name */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 46D1B27B226A6A9800C6D4A7 /* Build configuration list for PBXNativeTarget "Find my name" */;
+			buildConfigurationList = 46D1B27B226A6A9800C6D4A7 /* Build configuration list for PBXNativeTarget "Find My Name" */;
 			buildPhases = (
 				46D1B265226A6A9600C6D4A7 /* Sources */,
 				46D1B266226A6A9600C6D4A7 /* Frameworks */,
@@ -110,9 +108,9 @@
 			);
 			dependencies = (
 			);
-			name = "Find my name";
+			name = "Find My Name";
 			productName = RealtimeNumberReader;
-			productReference = 46D1B269226A6A9600C6D4A7 /* Find my name.app */;
+			productReference = 46D1B269226A6A9600C6D4A7 /* Find My Name.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -121,8 +119,9 @@
 		46D1B261226A6A9600C6D4A7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = Apple;
 				TargetAttributes = {
 					46D1B268226A6A9600C6D4A7 = {
@@ -130,7 +129,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 46D1B264226A6A9600C6D4A7 /* Build configuration list for PBXProject "Find my name" */;
+			buildConfigurationList = 46D1B264226A6A9600C6D4A7 /* Build configuration list for PBXProject "Find My Name" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -143,7 +142,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				46D1B268226A6A9600C6D4A7 /* Find my name */,
+				46D1B268226A6A9600C6D4A7 /* Find My Name */,
 			);
 		};
 /* End PBXProject section */
@@ -223,6 +222,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -234,6 +234,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -285,6 +286,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -296,6 +298,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -369,7 +372,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		46D1B264226A6A9600C6D4A7 /* Build configuration list for PBXProject "Find my name" */ = {
+		46D1B264226A6A9600C6D4A7 /* Build configuration list for PBXProject "Find My Name" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				46D1B279226A6A9800C6D4A7 /* Debug */,
@@ -378,7 +381,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		46D1B27B226A6A9800C6D4A7 /* Build configuration list for PBXNativeTarget "Find my name" */ = {
+		46D1B27B226A6A9800C6D4A7 /* Build configuration list for PBXNativeTarget "Find My Name" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				46D1B27C226A6A9800C6D4A7 /* Debug */,
