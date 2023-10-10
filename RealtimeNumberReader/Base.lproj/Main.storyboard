@@ -41,8 +41,8 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstItem="1zg-7o-3G8" firstAttribute="top" secondItem="4LZ-uG-TOw" secondAttribute="top" constant="80" id="MCy-Sv-OqO"/>
-                                    <constraint firstItem="1zg-7o-3G8" firstAttribute="centerX" secondItem="4LZ-uG-TOw" secondAttribute="centerX" id="wRc-z5-hPK"/>
+                                    <constraint firstItem="1zg-7o-3G8" firstAttribute="centerX" secondItem="4LZ-uG-TOw" secondAttribute="centerX" id="2Zy-wh-AW4"/>
+                                    <constraint firstItem="1zg-7o-3G8" firstAttribute="top" secondItem="4LZ-uG-TOw" secondAttribute="top" constant="80" id="6wX-PY-yG3"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="KGw-xA-kxA" appends="YES" id="aNf-kt-GPt"/>
@@ -101,7 +101,7 @@
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -66,7 +66,7 @@ class VisionViewController: ViewController {
         
         // Log any found numbers.
         numberTracker.logFrame(strings: numbers)
-        show(boxGroups: [(color: .red, boxes: redBoxes), (color: .green, boxes: greenBoxes)])
+        show(boxGroups: [(color: .yellow, boxes: redBoxes), (color: .red, boxes: greenBoxes)])
         
         // Check if there are any temporally stable numbers.
         if let sureNumber = numberTracker.getStableString() {
@@ -98,12 +98,26 @@ class VisionViewController: ViewController {
     
     // Draw a box on the screen, which must be done the main queue.
     var boxLayer = [CAShapeLayer]()
-    func draw(rect: CGRect, color: CGColor) {
+    func drawBox(rect: CGRect, color: CGColor, borderWidth: CGFloat = 1) {
         let layer = CAShapeLayer()
         layer.opacity = 0.5
         layer.borderColor = color
-        layer.borderWidth = 1
+        layer.borderWidth = borderWidth
         layer.frame = rect
+        boxLayer.append(layer)
+        previewView.videoPreviewLayer.insertSublayer(layer, at: 1)
+    }
+    
+    func drawLine(rect: CGRect, color: CGColor, borderWidth: CGFloat = 1) {
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: rect.origin.y + rect.size.height))
+        path.addLine(to: CGPoint(x: rect.origin.x + rect.size.width, y: rect.origin.y + rect.size.height))
+                
+        let layer = CAShapeLayer()
+        layer.path = path.cgPath
+        layer.strokeColor = color
+        layer.lineWidth = borderWidth
+        
         boxLayer.append(layer)
         previewView.videoPreviewLayer.insertSublayer(layer, at: 1)
     }
@@ -127,7 +141,12 @@ class VisionViewController: ViewController {
                 let color = boxGroup.color
                 for box in boxGroup.boxes {
                     let rect = layer.layerRectConverted(fromMetadataOutputRect: box.applying(self.visionToAVFTransform))
-                    self.draw(rect: rect, color: color.cgColor)
+                    if color == UIColor.red {
+                        self.drawBox(rect: rect, color: color.cgColor, borderWidth: 2)
+                        self.drawLine(rect: rect, color: color.cgColor)
+                    } else {
+                        self.drawBox(rect: rect, color: color.cgColor)
+                    }
                 }
             }
         }
