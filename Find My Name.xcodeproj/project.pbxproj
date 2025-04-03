@@ -324,7 +324,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZK2MG3TWVQ;
+				DEVELOPMENT_TEAM = TK2PC9D8F6;
 				INFOPLIST_FILE = RealtimeNumberReader/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Find My Name";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -350,7 +350,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZK2MG3TWVQ;
+				DEVELOPMENT_TEAM = TK2PC9D8F6;
 				INFOPLIST_FILE = RealtimeNumberReader/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Find My Name";
 				LD_RUNPATH_SEARCH_PATHS = (
