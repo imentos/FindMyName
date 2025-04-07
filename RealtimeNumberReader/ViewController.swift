@@ -138,6 +138,7 @@ class ViewController: UIViewController {
             }
             textField.text = self.getUserName()
             textField.placeholder = "Enter username"
+            textField.font = UIFont.systemFont(ofSize: 17)
             textField.keyboardType = .default
             textField.becomeFirstResponder()
         }
