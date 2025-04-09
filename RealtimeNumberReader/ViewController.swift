@@ -117,6 +117,8 @@ class ViewController: UIViewController {
                 self.updateNameButton(name: username)
                 
                 self.start()
+
+                self.handleTap(UITapGestureRecognizer())
             }
         })
         if let name = getUserName(), !name.isEmpty {
