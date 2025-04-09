@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import AVFoundation
 import Vision
-import CoreImage
 
 class VisionViewController: ViewController {    
     var request: VNRecognizeTextRequest!
@@ -20,7 +19,6 @@ class VisionViewController: ViewController {
         // Set up the Vision request before letting ViewController set up the camera
         // so it exists when the first buffer is received.
         request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
-        request.regionOfInterest = CGRect(x: 0.1, y: 0.1, width: 0.8, height: 0.2) // Adjust ROI as needed
         
         super.viewDidLoad()
         
@@ -78,37 +76,22 @@ class VisionViewController: ViewController {
     }
     
     override func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-    if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-        // Preprocess the image to reduce noise
-        if let preprocessedImage = preprocessImage(pixelBuffer: pixelBuffer) {
-            let requestHandler = VNImageRequestHandler(ciImage: preprocessedImage, orientation: textOrientation, options: [:])
+        if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+            // Configure for running in real time.
+            request.recognitionLevel = .fast
+            // Language correction doesn't help in recognizing phone numbers and also
+            // slows recognition.
+            request.usesLanguageCorrection = false
+            // Only run on the region of interest for maximum speed.
+            request.regionOfInterest = regionOfInterest
+            
+            let requestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: textOrientation, options: [:])
             do {
                 try requestHandler.perform([request])
             } catch {
-                print("Error performing Vision request: \(error)")
+                print(error)
             }
         }
-    }
-    }
-
-    func preprocessImage(pixelBuffer: CVPixelBuffer) -> CIImage? {
-        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-        
-        // Convert to grayscale
-        let grayscaleFilter = CIFilter(name: "CIColorControls")
-        grayscaleFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-        grayscaleFilter?.setValue(0.0, forKey: kCIInputSaturationKey) // Remove color
-        grayscaleFilter?.setValue(1.0, forKey: kCIInputContrastKey)   // Increase contrast
-        
-        // Apply thresholding to remove noise
-        if let grayscaleImage = grayscaleFilter?.outputImage {
-            let thresholdFilter = CIFilter(name: "CIThreshold")
-            thresholdFilter?.setValue(grayscaleImage, forKey: kCIInputImageKey)
-            thresholdFilter?.setValue(0.5, forKey: "inputThreshold") // Adjust threshold value
-            return thresholdFilter?.outputImage
-        }
-        
-        return nil
     }
     
     // MARK: - Bounding box drawing
