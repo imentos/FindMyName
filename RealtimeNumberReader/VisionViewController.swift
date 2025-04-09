@@ -31,23 +31,23 @@ class VisionViewController: ViewController {
         
         // Set up the Vision request
         request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
+        
+        DispatchQueue.main.async {
+            self.spinner.startAnimating()
+        }
     }
     
     // MARK: - Text recognition
     
     // The Vision recognition handler.
     func recognizeTextHandler(request: VNRequest, error: Error?) {
-        DispatchQueue.main.async {
-            self.spinner.startAnimating() // Start the spinner
-        }
-        
         var numbers = [String]()
         var yellowBoxes = [CGRect]() // Shows all recognized text lines.
         var redBoxes = [CGRect]() // Shows words that might be serials.
         
         guard let results = request.results as? [VNRecognizedTextObservation], let username = UserDefaults.standard.string(forKey: "userName") else {
             DispatchQueue.main.async {
-                self.spinner.stopAnimating() // Stop the spinner if no results
+                self.spinner.stopAnimating()
             }
             return
         }
@@ -81,16 +81,12 @@ class VisionViewController: ViewController {
         }
         
         DispatchQueue.main.async {
-            self.spinner.stopAnimating() // Stop the spinner after processing
+            self.spinner.stopAnimating()
         }
     }
 
     override func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-            DispatchQueue.main.async {
-                self.spinner.startAnimating() // Start the spinner
-            }
-            
             // Configure for running in real time.
             request.recognitionLevel = .accurate
             request.usesLanguageCorrection = false
@@ -102,10 +98,6 @@ class VisionViewController: ViewController {
                 try requestHandler.perform([request])
             } catch {
                 print(error)
-            }
-            
-            DispatchQueue.main.async {
-                self.spinner.stopAnimating() // Stop the spinner
             }
         }
     }
