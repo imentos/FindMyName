@@ -42,8 +42,8 @@ class VisionViewController: ViewController {
         }
         
         var numbers = [String]()
-        var redBoxes = [CGRect]() // Shows all recognized text lines.
-        var greenBoxes = [CGRect]() // Shows words that might be serials.
+        var yellowBoxes = [CGRect]() // Shows all recognized text lines.
+        var redBoxes = [CGRect]() // Shows words that might be serials.
         
         guard let results = request.results as? [VNRecognizedTextObservation], let username = UserDefaults.standard.string(forKey: "userName") else {
             DispatchQueue.main.async {
@@ -63,17 +63,17 @@ class VisionViewController: ViewController {
                 let (range, number) = result
                 if let box = try? candidate.boundingBox(for: range)?.boundingBox {
                     numbers.append(number)
-                    greenBoxes.append(box)
+                    redBoxes.append(box)
                     numberIsSubstring = !(range.lowerBound == candidate.string.startIndex && range.upperBound == candidate.string.endIndex)
                 }
             }
             if numberIsSubstring {
-                redBoxes.append(visionResult.boundingBox)
+                yellowBoxes.append(visionResult.boundingBox)
             }
         }
         
         numberTracker.logFrame(strings: numbers)
-        show(boxGroups: [(color: .yellow, boxes: redBoxes), (color: .red, boxes: greenBoxes)])
+        show(boxGroups: [(color: .yellow, boxes: yellowBoxes), (color: .red, boxes: redBoxes)])
         
         if let sureNumber = numberTracker.getStableString() {
             showString(string: sureNumber)
