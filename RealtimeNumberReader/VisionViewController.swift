@@ -10,30 +10,45 @@ import UIKit
 import AVFoundation
 import Vision
 
-class VisionViewController: ViewController {    
+class VisionViewController: ViewController {
     var request: VNRecognizeTextRequest!
-    // The temporal string tracker.
     let numberTracker = StringTracker()
     
+    // Add a spinner for loading indication
+    var spinner: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
-        // Set up the Vision request before letting ViewController set up the camera
-        // so it exists when the first buffer is received.
-        request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
-        
         super.viewDidLoad()
         
+        // Initialize the spinner
+        spinner = UIActivityIndicatorView(style: .large)
+        spinner.center = view.center
+        spinner.color = .systemBlue
+        spinner.hidesWhenStopped = true
+        view.addSubview(spinner)
+        
         overrideUserInterfaceStyle = .light
+        
+        // Set up the Vision request
+        request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
     }
     
     // MARK: - Text recognition
     
     // The Vision recognition handler.
     func recognizeTextHandler(request: VNRequest, error: Error?) {
+        DispatchQueue.main.async {
+            self.spinner.startAnimating() // Start the spinner
+        }
+        
         var numbers = [String]()
         var redBoxes = [CGRect]() // Shows all recognized text lines.
         var greenBoxes = [CGRect]() // Shows words that might be serials.
         
         guard let results = request.results as? [VNRecognizedTextObservation], let username = UserDefaults.standard.string(forKey: "userName") else {
+            DispatchQueue.main.async {
+                self.spinner.stopAnimating() // Stop the spinner if no results
+            }
             return
         }
         
@@ -42,17 +57,10 @@ class VisionViewController: ViewController {
         for visionResult in results {
             guard let candidate = visionResult.topCandidates(maximumCandidates).first else { continue }
             
-            // Draw red boxes around any detected text and green boxes around
-            // any detected phone numbers. The phone number may be a substring
-            // of the visionResult. If it's a substring, draw a green box around
-            // the number and a red box around the full string. If the number
-            // covers the full result, only draw the green box.
             var numberIsSubstring = true
             
             if let result = candidate.string.extractName(name: username) {
                 let (range, number) = result
-                // The number might not cover full visionResult. Extract the bounding
-                // box of the substring.
                 if let box = try? candidate.boundingBox(for: range)?.boundingBox {
                     numbers.append(number)
                     greenBoxes.append(box)
@@ -64,32 +72,40 @@ class VisionViewController: ViewController {
             }
         }
         
-        // Log any found numbers.
         numberTracker.logFrame(strings: numbers)
         show(boxGroups: [(color: .yellow, boxes: redBoxes), (color: .red, boxes: greenBoxes)])
         
-        // Check if there are any temporally stable numbers.
         if let sureNumber = numberTracker.getStableString() {
             showString(string: sureNumber)
             numberTracker.reset(string: sureNumber)
         }
+        
+        DispatchQueue.main.async {
+            self.spinner.stopAnimating() // Stop the spinner after processing
+        }
     }
-    
+
     override func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+            DispatchQueue.main.async {
+                self.spinner.startAnimating() // Start the spinner
+            }
+            
             // Configure for running in real time.
-            request.recognitionLevel = .fast
-            // Language correction doesn't help in recognizing phone numbers and also
-            // slows recognition.
+            request.recognitionLevel = .accurate
             request.usesLanguageCorrection = false
-            // Only run on the region of interest for maximum speed.
             request.regionOfInterest = regionOfInterest
+            request.preferBackgroundProcessing = true
             
             let requestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: textOrientation, options: [:])
             do {
                 try requestHandler.perform([request])
             } catch {
                 print(error)
+            }
+            
+            DispatchQueue.main.async {
+                self.spinner.stopAnimating() // Stop the spinner
             }
         }
     }
