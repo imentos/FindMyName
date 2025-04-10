@@ -13,27 +13,39 @@ import Vision
 class VisionViewController: ViewController {
     var request: VNRecognizeTextRequest!
     let numberTracker = StringTracker()
-    
-    // Add a spinner for loading indication
-    var spinner: UIActivityIndicatorView!
+    var statusLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Initialize the spinner
-        spinner = UIActivityIndicatorView(style: .large)
-        spinner.center = view.center
-        spinner.color = .label
-        spinner.hidesWhenStopped = true
-        view.addSubview(spinner)
+        // Initialize the label
+        statusLabel = UILabel()
+        statusLabel.text = "Initializing..."
+        statusLabel.textAlignment = .center
+        statusLabel.textColor = .white
+        statusLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        statusLabel.numberOfLines = 2
+        view.addSubview(statusLabel)
+        
+        // Center the label in the view
+        NSLayoutConstraint.activate([
+            statusLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 200),
+            statusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            statusLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
         
         overrideUserInterfaceStyle = .light
         
         // Set up the Vision request
         request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
         
+        updateStatusLabel(with: "Initializing...")
+    }
+    
+    func updateStatusLabel(with text: String) {
         DispatchQueue.main.async {
-            self.spinner.startAnimating()
+            self.statusLabel.text = text
         }
     }
     
@@ -41,14 +53,14 @@ class VisionViewController: ViewController {
     
     // The Vision recognition handler.
     func recognizeTextHandler(request: VNRequest, error: Error?) {
+        updateStatusLabel(with: "Finding...")
+        
         var numbers = [String]()
         var yellowBoxes = [CGRect]() // Shows all recognized text lines.
         var redBoxes = [CGRect]() // Shows words that might be serials.
         
         guard let results = request.results as? [VNRecognizedTextObservation], let username = UserDefaults.standard.string(forKey: "userName") else {
-            DispatchQueue.main.async {
-                self.spinner.stopAnimating()
-            }
+            updateStatusLabel(with: "")
             return
         }
         
@@ -76,12 +88,9 @@ class VisionViewController: ViewController {
         show(boxGroups: [(color: .yellow, boxes: yellowBoxes), (color: .red, boxes: redBoxes)])
         
         if let sureNumber = numberTracker.getStableString() {
+            updateStatusLabel(with: "")
             showString(string: sureNumber)
             numberTracker.reset(string: sureNumber)
-        }
-        
-        DispatchQueue.main.async {
-            self.spinner.stopAnimating()
         }
     }
 
@@ -151,7 +160,7 @@ class VisionViewController: ViewController {
                     let rect = layer.layerRectConverted(fromMetadataOutputRect: box.applying(self.visionToAVFTransform))
                     if color == UIColor.red {
                         self.drawBox(rect: rect, color: color.cgColor, borderWidth: 2)
-                        self.drawLine(rect: rect, color: color.cgColor)
+                        self.drawLine(rect: rect, color: color.cgColor, borderWidth: 2)
                     } else {
                         self.drawBox(rect: rect, color: color.cgColor)
                     }
