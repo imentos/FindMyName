@@ -95,8 +95,10 @@ class ViewController: UIViewController {
     }
     
     private func saveUserName(_ name: String) {
-        let defaults = UserDefaults.standard
-        defaults.set(name, forKey: "userName")
+        DispatchQueue.main.async {
+            let defaults = UserDefaults.standard
+            defaults.set(name, forKey: "userName")
+        }
     }
     
     private func getUserName() -> String? {
@@ -188,7 +190,7 @@ class ViewController: UIViewController {
         // buffer width to height. When the UI is rotated to portrait, keep the
         // vertical size the same (in buffer pixels). Also try to keep the
         // horizontal size the same up to a maximum ratio.
-        let desiredHeightRatio = 1.5
+        let desiredHeightRatio = 1.2
         let desiredWidthRatio = 0.2
         let maxPortraitWidth = 0.8
         
@@ -223,12 +225,12 @@ class ViewController: UIViewController {
         let path = UIBezierPath(rect: cutoutView.frame)
         path.append(UIBezierPath(rect: cutout))
         maskLayer.path = path.cgPath
-        
-        // Move the number view down to under cutout.
-        var numFrame = cutout
-        numFrame.origin.y += numFrame.size.height
-        numFrame.size.height = 50
-        numberView.frame = numFrame
+//        
+//        // Move the number view down to under cutout.
+//        var numFrame = cutout
+//        numFrame.origin.y += numFrame.size.height
+//        numFrame.size.height = 50
+//        numberView.frame = numFrame
     }
     
     func setupOrientationAndTransform() {
@@ -322,10 +324,10 @@ class ViewController: UIViewController {
         // Then update the number view asynchronously.
         captureSessionQueue.sync {
             self.captureSession.stopRunning()
-            DispatchQueue.main.async {
-                self.numberView.text = string
-                self.numberView.isHidden = false
-            }
+//            DispatchQueue.main.async {
+//                self.numberView.text = string
+//                self.numberView.isHidden = false
+//            }
         }
     }
     
@@ -334,9 +336,9 @@ class ViewController: UIViewController {
             if !self.captureSession.isRunning {
                 self.captureSession.startRunning()
             }
-            DispatchQueue.main.async {
-                self.numberView.isHidden = true
-            }
+//            DispatchQueue.main.async {
+//                self.numberView.isHidden = true
+//            }
         }
     }
 }

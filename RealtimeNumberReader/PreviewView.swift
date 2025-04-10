@@ -14,6 +14,7 @@ class PreviewView: UIView {
         guard let layer = layer as? AVCaptureVideoPreviewLayer else {
             fatalError("Unexpected layer type.")
         }
+        layer.videoGravity = .resizeAspectFill // Ensure the video fills the screen
         return layer
     }
     

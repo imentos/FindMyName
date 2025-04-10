@@ -23,7 +23,7 @@ class VisionViewController: ViewController {
         // Initialize the spinner
         spinner = UIActivityIndicatorView(style: .large)
         spinner.center = view.center
-        spinner.color = .systemBlue
+        spinner.color = .white
         spinner.hidesWhenStopped = true
         view.addSubview(spinner)
         
