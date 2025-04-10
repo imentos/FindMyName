@@ -13,8 +13,7 @@ class ViewController: UIViewController {
     // MARK: - UI objects
     @IBOutlet weak var previewView: PreviewView!
     @IBOutlet weak var cutoutView: UIView!
-    @IBOutlet weak var numberView: UILabel!
-    @IBOutlet weak var nameButton: UIButton!
+    @IBOutlet weak var nameLabel: UILabel!
     
     var maskLayer = CAShapeLayer()
     // The device orientation that's updated whenever the orientation changes to a
@@ -64,15 +63,13 @@ class ViewController: UIViewController {
         cutoutView.layer.mask = maskLayer
         
         overrideUserInterfaceStyle = .light
-        nameButton.layer.cornerRadius = 10
-        nameButton.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if let name = getUserName() {
-            updateNameButton(name: name)
+            updateName(name: name)
             
             start()
         } else {
@@ -106,9 +103,8 @@ class ViewController: UIViewController {
         return defaults.string(forKey: "userName")
     }
     
-    private func updateNameButton(name: String) {
-        nameButton.isHidden = false
-        nameButton.setTitle(name.trimmingCharacters(in: .whitespacesAndNewlines), for: .normal)
+    private func updateName(name: String) {
+        nameLabel.text = name.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     private func showUsernameAlert() {
@@ -116,7 +112,7 @@ class ViewController: UIViewController {
         let doneAction = UIAlertAction(title: "Done", style: UIAlertAction.Style.default, handler: { (action) -> Void in
             if let username = alert.textFields?[0].text {
                 self.saveUserName(username)
-                self.updateNameButton(name: username)
+                self.updateName(name: username)
                 
                 self.start()
 
@@ -150,7 +146,6 @@ class ViewController: UIViewController {
     }
     
     @IBAction func enterUsername(_ sender: Any) {
-        self.nameButton.isHidden = true
         DispatchQueue.main.async {
             self.showUsernameAlert()
         }
@@ -225,12 +220,6 @@ class ViewController: UIViewController {
         let path = UIBezierPath(rect: cutoutView.frame)
         path.append(UIBezierPath(rect: cutout))
         maskLayer.path = path.cgPath
-//        
-//        // Move the number view down to under cutout.
-//        var numFrame = cutout
-//        numFrame.origin.y += numFrame.size.height
-//        numFrame.size.height = 50
-//        numberView.frame = numFrame
     }
     
     func setupOrientationAndTransform() {
@@ -324,10 +313,6 @@ class ViewController: UIViewController {
         // Then update the number view asynchronously.
         captureSessionQueue.sync {
             self.captureSession.stopRunning()
-//            DispatchQueue.main.async {
-//                self.numberView.text = string
-//                self.numberView.isHidden = false
-//            }
         }
     }
     
@@ -336,9 +321,6 @@ class ViewController: UIViewController {
             if !self.captureSession.isRunning {
                 self.captureSession.startRunning()
             }
-//            DispatchQueue.main.async {
-//                self.numberView.isHidden = true
-//            }
         }
     }
 }
